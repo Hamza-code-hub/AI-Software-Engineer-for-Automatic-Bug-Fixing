@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://mini-swe-agent.com/latest/">
+  <a href="https://github.com/SWE-agent/mini-swe-agent/">
     <img src="assets/warning.png" alt="mini-swe-agent.com" style="height: 7em" />
   </a>
 </p>
