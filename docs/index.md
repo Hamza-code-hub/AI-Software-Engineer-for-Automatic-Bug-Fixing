@@ -13,6 +13,12 @@ title: "Getting Started"
     <img class="dark-mode-only" src="assets/readme_assets/swe-agent-banner-dark.svg" alt="SWE-agent banner" style="height: 10em;">
 </div>
 
+!!! warning "We recommend mini-swe-agent instead of SWE-agent"
+    Most of our current development effort is on [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent/),
+    which has superseded SWE-agent. It matches the performance of SWE-agent, while being
+    much simpler.
+    See the [FAQ](https://mini-swe-agent.com/latest/faq/) for more details about the differences.
+
 SWE-agent enables your language model of choice (e.g. GPT-4o or Claude Sonnet 4) to autonomously use tools to
 [fix issues in real GitHub repositories](https://swe-agent.com/latest/usage/hello_world),
 [find cybersecurity vulnerabilities](https://enigma-agent.com/), or
