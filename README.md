@@ -10,6 +10,12 @@
 <a href="https://arxiv.org/abs/2405.15793"><img src="https://img.shields.io/badge/arxiv-2405.15793-red?style=for-the-badge&logo=arxiv&logoColor=white&labelColor=black" alt="arxiv 2405.15793"></a>
 </p>
 
+> [!warning]
+> Most of our current development effort is on [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent/),
+> which has supersedes SWE-agent. It matches the performance performance of SWE-agent, while being
+> much simpler.
+> See the [FAQ](https://mini-swe-agent.com/latest/faq/) for more details about the differences.
+
 
 SWE-agent enables your language model of choice (e.g. GPT-4o or Claude Sonnet 4) to autonomously use tools to
 [fix issues in real GitHub repositories](https://swe-agent.com/latest/usage/hello_world),
@@ -22,12 +28,6 @@ SWE-agent enables your language model of choice (e.g. GPT-4o or Claude Sonnet 4)
 * ✅ **Made for research**: Simple & hackable by design
 
 SWE-agent is built and maintained by researchers from Princeton University and Stanford University.
-
-> [!note]
-> Most of our current development effort is on [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent/),
-> which will eventually supersede SWE-agent. It already matches the performance performance of SWE-agent, while being
-> much simpler.
-> See the [FAQ](https://mini-swe-agent.com/latest/faq/) about whether you should switch already.
 
 ## 📣 News
 
