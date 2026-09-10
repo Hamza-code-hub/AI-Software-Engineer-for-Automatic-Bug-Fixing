@@ -1,104 +1,406 @@
+# SWE-agent — Autonomous AI Software Engineer
+
 <p align="center">
-  <a href="https://swe-agent.com/latest/">
-    <img src="assets/swe-agent-banner.png" alt="swe-agent.com" style="height: 7em" />
-  </a>
+  <img src="docs/assets/swe-agent-hero.png" alt="SWE-agent autonomous software engineering" width="100%" />
 </p>
 
 <p align="center">
-<a href="https://swe-agent.com/latest/"><img src="https://img.shields.io/badge/Docs-green?style=for-the-badge&logo=materialformkdocs&logoColor=white" alt="Docs"></a>
-<a href="https://swe-bench.slack.com"><img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white" alt="Slack"></a>
-<a href="https://arxiv.org/abs/2405.15793"><img src="https://img.shields.io/badge/arxiv-2405.15793-red?style=for-the-badge&logo=arxiv&logoColor=white&labelColor=black" alt="arxiv 2405.15793"></a>
+  <strong>Give a language model a real repository, real tools, and a real software task.</strong><br/>
+  SWE-agent is a research-oriented framework for autonomous software engineering across issue resolution, code modification, testing, benchmarking, and custom repository tasks.
 </p>
 
 <p align="center">
-  <a href="https://github.com/SWE-agent/mini-swe-agent/">
-    <img src="assets/warning.png" alt="mini-swe-agent.com" style="height: 7em" />
-  </a>
+  <a href="#overview">Overview</a> •
+  <a href="#what-swe-agent-does">Capabilities</a> •
+  <a href="#autonomous-software-engineering-loop">Workflow</a> •
+  <a href="#architecture">Architecture</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#repository-structure">Repository</a> •
+  <a href="#research--evaluation">Research</a> •
+  <a href="#license">License</a>
 </p>
 
-> [!warning]
-> Most of our current development effort is on [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent/),
-> which has superseded SWE-agent. It matches the performance performance of SWE-agent, while being
-> much simpler.
-> See the [FAQ](https://mini-swe-agent.com/latest/faq/) for more details about the differences.
-> Our general recommendation is to use mini-SWE-agent instead of SWE-agent going forward.
+<p align="center">
+  <img src="https://img.shields.io/badge/Focus-Autonomous%20Software%20Engineering-2563EB?style=flat-square" alt="Autonomous Software Engineering" />
+  <img src="https://img.shields.io/badge/Benchmark-SWE--bench-7C3AED?style=flat-square" alt="SWE-bench" />
+  <img src="https://img.shields.io/badge/Configuration-YAML-10B981?style=flat-square" alt="YAML configuration" />
+  <img src="https://img.shields.io/badge/Design-Research%20%26%20Hackable-F59E0B?style=flat-square" alt="Research friendly" />
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="MIT License" />
+</p>
 
+---
 
-SWE-agent enables your language model of choice (e.g. GPT-4o or Claude Sonnet 4) to autonomously use tools to
-[fix issues in real GitHub repositories](https://swe-agent.com/latest/usage/hello_world),
-[find cybersecurity vulnerabilities](https://enigma-agent.com/), or
-[perform any custom task](https://swe-agent.com/latest/usage/coding_challenges).
+> [!IMPORTANT]
+> **Current project direction:** most active development has moved to **mini-SWE-agent**, which the project describes as a much simpler successor that matches SWE-agent performance. SWE-agent remains valuable as a research-oriented, configurable, and hackable autonomous software-engineering framework.
 
-* ✅ **State of the art** on SWE-bench among open-source projects
-* ✅ **Free-flowing & generalizable**: Leaves maximal agency to the LM
-* ✅ **Configurable & fully documented**: Governed by a single `yaml` file
-* ✅ **Made for research**: Simple & hackable by design
+---
 
-SWE-agent is built and maintained by researchers from Princeton University and Stanford University.
+## Overview
 
-## 📣 News
+**SWE-agent** enables a language model to autonomously use software-development tools inside real repositories.
 
-* July 24: [Mini-SWE-Agent](https://github.com/SWE-agent/mini-SWE-agent) achieves 65% on SWE-bench verified in 100 lines of python!
-* May 2: [SWE-agent-LM-32b](https://github.com/SWE-bench/SWE-smith) achieves open-weights SOTA on SWE-bench
-* Feb 28: [SWE-agent 1.0 + Claude 3.7 is SoTA on SWE-Bench full](https://x.com/KLieret/status/1895487966409298067)
-* Feb 25: [SWE-agent 1.0 + Claude 3.7 is SoTA on SWE-bench verified](https://x.com/KLieret/status/1894408819670733158)
-* Feb 13: [Releasing SWE-agent 1.0: SoTA on SWE-bench light & tons of new features](https://x.com/KLieret/status/1890048205448220849)
-* Dec 7: [An interview with the SWE-agent & SWE-bench team](https://www.youtube.com/watch?v=fcr8WzeEXyk)
+Instead of only generating code in a chat response, the agent can operate through an iterative engineering process that involves:
 
-## 🚀 Get started!
+- understanding a software issue or task
+- exploring a repository
+- reading source files
+- running commands
+- modifying code
+- validating changes
+- using test feedback
+- iterating toward a solution
 
-👉 Try SWE-agent in your browser: [![Open in GitHub Codespaces](https://img.shields.io/badge/Open_in_GitHub_Codespaces-gray?logo=github)](https://codespaces.new/SWE-agent/SWE-agent) ([more information](https://swe-agent.com/latest/installation/codespaces/))
+The project is designed to leave substantial agency to the underlying language model while keeping the execution environment and behavior configurable.
 
-Read our [documentation][docs] to learn more:
+Its primary characteristics are:
 
-* [Installation](https://swe-agent.com/latest/installation/source/)
-* [Hello world from the command line](https://swe-agent.com/latest/usage/hello_world/)
-* [Benchmarking on SWE-bench](https://swe-agent.com/latest/usage/batch_mode/)
-* [Frequently Asked Questions](https://swe-agent.com/latest/faq/)
+- **state-of-the-art research performance** on SWE-bench among open-source projects
+- **generalizable agent behavior** with high LM autonomy
+- **configuration through YAML**
+- **simple and hackable research-oriented design**
 
-[docs]: https://swe-agent.com
+---
 
-## SWE-agent for offensive cybersecurity (EnIGMA) <a name="enigma"></a>
+## What SWE-agent Does
 
-<img src="https://github.com/user-attachments/assets/84599168-11a7-4776-8a49-33dbf0758bb2" height="80px"></img>
+<p align="center">
+  <img src="docs/assets/swe-agent-autonomous-workflow.png" alt="SWE-agent autonomous software engineering workflow" width="96%" />
+</p>
 
-[SWE-agent: EnIGMA][enigma] is a mode for solving offensive cybersecurity (capture the flag) challenges.
-EnIGMA achieves state-of-the-art results on multiple cybersecurity benchmarks (see [leaderboard](https://enigma-agent.com/#results)).
-Please use [SWE-agent 0.7](https://github.com/SWE-agent/SWE-agent/tree/v0.7) while we update EnIGMA for 1.0.
+### Automated Issue Resolution
 
-[enigma]: https://enigma-agent.com
-[SWE-bench]: https://github.com/SWE-bench/SWE-bench
-[nyu-ctf]: https://arxiv.org/abs/2406.05590
+Give the agent:
 
-In addition, you might be interested in our other projects:
+```text
+Repository
++
+Issue / Task Description
+```
 
+and allow it to investigate the codebase and work toward a solution.
 
-<div align="center">
-  <a href="https://github.com/SWE-agent/mini-SWE-agent"><img src="docs/assets/mini_logo_text_below.svg" alt="Mini-SWE-Agent" height="120px"></a>
-   &nbsp;&nbsp;
-  <a href="https://github.com/SWE-agent/SWE-ReX"><img src="docs/assets/swerex_logo_text_below.svg" alt="SWE-ReX" height="120px"></a>
-   &nbsp;&nbsp;
-  <a href="https://github.com/SWE-bench/SWE-bench"><img src="docs/assets/swebench_logo_text_below.svg" alt="SWE-bench" height="120px"></a>
-  &nbsp;&nbsp;
-  <!-- <a href="https://github.com/SWE-agent/SWE-agent"><img src="docs/assets/sweagent_logo_text_below.svg" alt="SWE-agent" height="120px"></a> -->
-  <a href="https://github.com/SWE-bench/SWE-smith"><img src="docs/assets/swesmith_logo_text_below.svg" alt="SWE-smith" height="120px"></a>
-  &nbsp;&nbsp;
-  <a href="https://github.com/SWE-bench/sb-cli"><img src="docs/assets/sbcli_logo_text_below.svg" alt="sb-cli" height="120px"></a>
-</div>
+Typical tasks include:
 
-## Contributions <a name="contributions"></a>
+- fixing implementation bugs
+- resolving failing behavior
+- modifying existing features
+- implementing requested functionality
+- investigating repository-level problems
 
-If you'd like to contribute to the codebase, we welcome [issues](https://github.com/SWE-agent/SWE-agent/issues) and [pull requests](https://github.com/SWE-agent/SWE-agent/pulls)! For larger code changes, we always encourage discussion in issues first.
+### Custom Software Tasks
 
-## Citation & contact <a name="citation"></a>
+The framework is intentionally general rather than hard-coded to one benchmark or issue format.
 
-SWE-agent is an academic project started at Princeton University by John Yang*, Carlos E. Jimenez*, Alexander Wettig, Kilian Lieret, Shunyu Yao, Karthik Narasimhan, and Ofir Press.
-Contact person: [John Yang](https://john-b-yang.github.io/), [Carlos E. Jimenez](http://www.carlosejimenez.com/), and [Kilian Lieret](https://www.lieret.net/) (Email: johnby@stanford.edu, carlosej@cs.princeton.edu, kl5675@princeton.edu).
+It can be adapted for:
 
-If you found this work helpful, please consider citing it using the following:
+- coding challenges
+- repository maintenance
+- research experiments
+- automated software-engineering workflows
+- tool-using language-model experiments
 
-<details>
-<summary> SWE-agent citation</summary>
+### Security Research Mode
+
+The SWE-agent ecosystem also includes **EnIGMA**, a mode focused on offensive cybersecurity benchmark tasks and CTF research.
+
+Use security functionality only for systems, repositories, challenges, and environments where testing is explicitly authorized.
+
+---
+
+## Autonomous Software Engineering Loop
+
+A typical SWE-agent run follows an iterative feedback loop:
+
+```text
+Issue / Task
+     ↓
+Understand
+     ↓
+Explore Repository
+     ↓
+Plan
+     ↓
+Read / Search Code
+     ↓
+Modify Files
+     ↓
+Run Commands / Tests
+     ↓
+Inspect Feedback
+     ↓
+Refine Solution
+     ↓
+Final Patch / Result
+```
+
+Unlike a one-shot code generator, the agent can repeatedly inspect the consequences of its own actions.
+
+This matters because real software issues often require:
+
+- locating the correct implementation
+- understanding project structure
+- discovering dependencies
+- checking test failures
+- revising incomplete patches
+- validating the final result
+
+---
+
+## Architecture
+
+<p align="center">
+  <img src="docs/assets/swe-agent-repository-overview.png" alt="SWE-agent repository and architecture overview" width="96%" />
+</p>
+
+At a high level:
+
+```text
+Software Task
+    │
+    ▼
+Language Model
+    │
+    ▼
+SWE-agent
+    │
+    ├── Repository Search
+    ├── File Inspection
+    ├── Shell Commands
+    ├── Code Editing
+    ├── Test Execution
+    └── Tool Feedback
+    │
+    ▼
+Iterative Reasoning Loop
+    │
+    ▼
+Patch / Solution / Evaluation Result
+```
+
+The framework provides an **agent-computer interface** that lets the model carry out engineering actions in a real environment.
+
+---
+
+## Configuration Model
+
+A central design goal is configurability.
+
+The project describes SWE-agent as being governed by a **single YAML configuration file**, making it practical to change:
+
+- agent behavior
+- tool configuration
+- prompts
+- environment options
+- model-specific settings
+- experiment settings
+
+This makes the codebase useful for controlled research and custom agent experiments.
+
+---
+
+## Getting Started
+
+### Option 1 — GitHub Codespaces
+
+The project provides a browser-based Codespaces route for trying SWE-agent without manually preparing a local environment.
+
+### Option 2 — Local Installation
+
+For current source installation and environment requirements, follow the project's official installation documentation.
+
+Recommended learning sequence:
+
+1. installation
+2. command-line hello world
+3. SWE-bench batch evaluation
+4. configuration and FAQ
+
+---
+
+## Typical Workflow
+
+A practical project flow looks like this:
+
+```text
+1. Select repository
+2. Define issue / task
+3. Configure SWE-agent
+4. Start agent run
+5. Allow repository exploration
+6. Allow edits and command execution
+7. Run validation / tests
+8. Inspect trajectory and result
+9. Evaluate patch
+```
+
+Recorded trajectories are useful for:
+
+- debugging agent behavior
+- research analysis
+- comparing model strategies
+- studying failure modes
+- reproducibility
+
+---
+
+## Repository Structure
+
+```text
+SWE-agent/
+├── .cursor/
+│   └── rules/                 # editor / coding-agent rules
+├── .devcontainer/             # development container configuration
+├── .github/                   # GitHub workflows and repository automation
+├── assets/                    # project assets
+├── config/                    # SWE-agent YAML configurations
+├── docs/                      # project documentation
+├── sweagent/                  # core SWE-agent source code
+├── tests/                     # automated tests
+├── tools/                     # supporting tools
+├── trajectories/              # saved agent trajectories / runs
+├── .env.example               # example environment configuration
+├── .git-blame-ignore-revs
+├── .gitignore
+├── .pre-commit-config.yaml
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+└── SECURITY.md
+```
+
+### Core Directories
+
+| Path | Purpose |
+|---|---|
+| `sweagent/` | Main autonomous software-engineering implementation |
+| `config/` | Agent and experiment configurations |
+| `tools/` | Tooling available to agent workflows |
+| `trajectories/` | Agent execution traces and experiment outputs |
+| `tests/` | Framework validation |
+| `docs/` | Documentation and guides |
+| `.devcontainer/` | Reproducible development environment |
+| `.cursor/rules/` | Coding-assistant / repository rules |
+
+---
+
+## Research & Evaluation
+
+SWE-agent is explicitly designed as a research framework.
+
+The project is closely associated with **SWE-bench**, a benchmark for evaluating software-engineering agents on real repository issues.
+
+Research use cases include:
+
+- comparing language models
+- evaluating tool interfaces
+- studying autonomous debugging
+- analyzing action trajectories
+- measuring patch success
+- comparing configuration strategies
+- investigating agent-computer interfaces
+
+The project emphasizes simplicity and hackability so researchers can modify the system rather than treat it as a closed black box.
+
+---
+
+## Relationship to mini-SWE-agent
+
+The project currently recommends **mini-SWE-agent** for most new usage.
+
+The stated reasons are:
+
+- much simpler implementation
+- comparable performance
+- current development focus has moved there
+
+SWE-agent remains relevant when you need:
+
+- the original research framework
+- existing SWE-agent configurations
+- detailed trajectory experiments
+- compatibility with earlier evaluation workflows
+- a larger configurable codebase for agent research
+
+---
+
+## SWE-bench
+
+SWE-bench evaluates whether an AI system can resolve real software-engineering issues from real repositories.
+
+A typical benchmark task provides:
+
+```text
+Repository Snapshot
++
+Issue Description
++
+Tests / Evaluation Criteria
+```
+
+An agent must modify the repository so the resulting patch satisfies the task.
+
+---
+
+## Trajectories
+
+The `trajectories/` directory is important for autonomous-agent research.
+
+A trajectory can capture:
+
+```text
+observation
+→ decision
+→ tool call
+→ repository output
+→ next decision
+→ edit
+→ test
+→ revision
+```
+
+Trajectory analysis helps researchers understand not only **whether** an agent solved a task, but **how** it attempted to solve it.
+
+---
+
+## Security Research
+
+The SWE-agent ecosystem includes **EnIGMA**, designed for offensive cybersecurity benchmark and CTF-style research.
+
+Use these capabilities only for:
+
+- CTF challenges
+- intentionally vulnerable labs
+- authorized security research
+- systems you own or are explicitly permitted to test
+
+---
+
+## Ecosystem
+
+Related projects include:
+
+- **mini-SWE-agent** — simpler successor and current recommended agent
+- **SWE-ReX** — related SWE-agent ecosystem tooling
+- **SWE-bench** — software-engineering benchmark
+- **SWE-smith** — SWE-related model/data work
+- **sb-cli** — SWE-bench tooling
+
+---
+
+## Design Principles
+
+- **real repositories, not synthetic snippets**
+- **tool use instead of one-shot generation**
+- **iterative feedback from the environment**
+- **high language-model agency**
+- **simple configuration**
+- **research reproducibility**
+- **inspectable execution trajectories**
+- **hackable implementation**
+
+---
+
+## Citation
 
 ```bibtex
 @inproceedings{yang2024sweagent,
@@ -109,37 +411,17 @@ If you found this work helpful, please consider citing it using the following:
   url={https://arxiv.org/abs/2405.15793}
 }
 ```
-</details>
 
-If you used the summarizer, interactive commands or the offensive cybersecurity capabilities in SWE-agent, please also consider citing:
+---
 
-<details>
-<summary>EnIGMA citation</summary>
+## License
 
-```bibtex
-@misc{abramovich2024enigmaenhancedinteractivegenerative,
-      title={EnIGMA: Enhanced Interactive Generative Model Agent for CTF Challenges},
-      author={Talor Abramovich and Meet Udeshi and Minghao Shao and Kilian Lieret and Haoran Xi and Kimberly Milner and Sofija Jancheska and John Yang and Carlos E. Jimenez and Farshad Khorrami and Prashanth Krishnamurthy and Brendan Dolan-Gavitt and Muhammad Shafique and Karthik Narasimhan and Ramesh Karri and Ofir Press},
-      year={2024},
-      eprint={2409.16165},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2409.16165},
-}
-```
-</details>
+SWE-agent is licensed under the **MIT License**.
 
+See `LICENSE` for full terms.
 
-## 🪪 License <a name="license"></a>
-MIT. Check `LICENSE`.
+---
 
-
-<div align="center">
-
-[![Pytest](https://github.com/SWE-agent/SWE-agent/actions/workflows/pytest.yaml/badge.svg)](https://github.com/SWE-agent/SWE-agent/actions/workflows/pytest.yaml)
-[![build-docs](https://github.com/SWE-agent/SWE-agent/actions/workflows/build-docs.yaml/badge.svg)](https://github.com/SWE-agent/SWE-agent/actions/workflows/build-docs.yaml)
-[![codecov](https://codecov.io/gh/SWE-agent/SWE-agent/graph/badge.svg?token=18XAVDK365)](https://codecov.io/gh/SWE-agent/SWE-agent)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/SWE-agent/SWE-agent/main.svg)](https://results.pre-commit.ci/latest/github/SWE-agent/SWE-agent/main)
-[![Markdown links](https://github.com/SWE-agent/SWE-agent/actions/workflows/check-links-periodic.yaml/badge.svg)](https://github.com/SWE-agent/SWE-agent/actions/workflows/check-links-periodic.yaml)
-
-</div>
+<p align="center">
+  <strong>From repository issues to autonomous software-engineering experiments.</strong>
+</p>
